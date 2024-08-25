@@ -80,7 +80,7 @@ export class TimeFormatter {
         return formattedTime;
     }
 
-    formatRelativeTime(maxUnit: keyof typeof TimeFormatter.timeUnits = 'year', minUnit: keyof typeof TimeFormatter.timeUnits = 'second'): string {
+    formatRelativePeriod(maxUnit: keyof typeof TimeFormatter.timeUnits = 'year', minUnit: keyof typeof TimeFormatter.timeUnits = 'second'): string {
         const timestamp = this.time.getTime();
         const now = Date.now();
         const diffInMs = timestamp - now;
@@ -145,6 +145,32 @@ export class TimeFormatter {
         month: 60 * 60 * 24 * 30, // Approximation
         year: 60 * 60 * 24 * 365  // Approximation
     };
+
+    formatRelativeTime(): string {
+        const now = new Date();
+        const diffInSeconds = Math.floor((this.time.getTime() - now.getTime()) / 1000);
+
+        const rtf = new Intl.RelativeTimeFormat(this.getDocumentLang(), { numeric: 'auto' });
+
+        const timeFrames = [
+            { unit: 'year', seconds: 60 * 60 * 24 * 365 },
+            { unit: 'month', seconds: 60 * 60 * 24 * 30 },
+            { unit: 'week', seconds: 60 * 60 * 24 * 7 },
+            { unit: 'day', seconds: 60 * 60 * 24 },
+            { unit: 'hour', seconds: 60 * 60 },
+            { unit: 'minute', seconds: 60 },
+            { unit: 'second', seconds: 1 },
+        ];
+
+        for (const frame of timeFrames) {
+            const elapsed = diffInSeconds / frame.seconds;
+            if (Math.abs(elapsed) >= 1) {
+                return rtf.format(Math.round(elapsed), frame.unit as Intl.RelativeTimeFormatUnit);
+            }
+        }
+
+        return rtf.format(0, 'second');
+    }
 }
 
 export class NumberFormatter {
@@ -154,6 +180,16 @@ export class NumberFormatter {
     constructor(number: number, lang = "en-US") {
         this.number = number;
         this.lang = lang;
+    }
+
+    formatNumber(): string {
+        const number = this.number;
+        const formatter = new Intl.NumberFormat(this.lang, {
+            notation: "compact",
+            maximumFractionDigits: 1,
+        });
+
+        return formatter.format(number);
     }
 
     formatTime(): string {

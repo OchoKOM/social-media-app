@@ -5,21 +5,19 @@ import { TimeFormatter } from "@/lib/formatters";
 
 interface TimeProps{
     time: Date;
+    relative: boolean;
 }
 
-export default function Time({time}: TimeProps) {
+export default function Time({time, relative}: TimeProps) {
     const [language, setLanguage] = useState<string>('en-US');
     
       useEffect(() => {
           setLanguage(navigator.language || 'en-US');
       }, []);
-    const currentDate = new Date();
-    const difference = Math.abs(currentDate.getTime() - time.getTime());
-    
     
     const timeFormatter = new  TimeFormatter(time, language, true, false);
 
-    const formattedTime = timeFormatter.formatRelativeTime();
+    const formattedTime = relative ? timeFormatter.formatRelativeTime() : timeFormatter.formatFullTime() ;
     
     return <time>{formattedTime}</time>
 };

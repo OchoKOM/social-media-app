@@ -9,6 +9,13 @@ interface PostProps {
 }
 
 export default function Post({ post }: PostProps) {
+
+    const timestamp = post.createdAt.getTime();
+    const now = Date.now();
+    const diffInMs = now - timestamp;
+
+    const relative = (diffInMs < Math.abs(48 * 3600 * 1000))
+
     return <article className="flex flex-col p-5 rounded-2xl bg-card shadow-sm gap-5">
         <div className="flex flex-wrap gap-3">
             <Link href={`/users/${post.user.username}`}>
@@ -19,7 +26,7 @@ export default function Post({ post }: PostProps) {
                     {post.user.displayName}
                 </Link>
                 <Link href={`/posts/${post.id}`} className="block text-sm text-muted-foreground hover:underline">
-                    <Time time={post.createdAt}/>
+                    <Time time={post.createdAt} relative={relative} />
                 </Link>
             </div>
         </div>

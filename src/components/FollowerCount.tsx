@@ -20,7 +20,7 @@ export default function FollowerCount({
       <span className="font-semibold">
         <FormattedInt number={data.followers} />
       </span>{" "}
-      Followers
+      Follower{data.followers > 1 ? "s" : ""}
     </span>
   );
 }

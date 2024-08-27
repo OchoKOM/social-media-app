@@ -26,7 +26,7 @@ function LinkifyUrl({ children }: LinkifyProps) {
 function LinkifyUsername({ children }: LinkifyProps) {
   return (
     <LinkIt
-      regex={/(@[a-zA-Z0-9_-]+)/}
+      regex={/(?<!https?:\/\/\S*)@([a-zA-Z0-9_-]+)/}
       component={(match, key) => {
         return (
           <UserLinkWithTooltip key={key} username={match.slice(1)}>
@@ -39,10 +39,11 @@ function LinkifyUsername({ children }: LinkifyProps) {
     </LinkIt>
   );
 }
+
 function LinkifyHashtag({ children }: LinkifyProps) {
   return (
     <LinkIt
-      regex={/(#[a-zA-Z0-9]+)/}
+      regex={/(#[a-zA-Z0-9_-]+)/}
       component={(match, key) => {
         return (
           <Link

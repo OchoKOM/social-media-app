@@ -39,7 +39,7 @@ export default function UserButton({ className }: UserButtonProps) {
             </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-            <DropdownMenuLabel>
+            <DropdownMenuLabel className="max-sm:max-w-36">
                 Connecté(e) en tant que @{user.username}
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
@@ -55,7 +55,7 @@ export default function UserButton({ className }: UserButtonProps) {
                     Thême
                 </DropdownMenuSubTrigger>
                 <DropdownMenuPortal>
-                    <DropdownMenuSubContent>
+                    <DropdownMenuSubContent  className="max-sm:max-w-48">
                         <DropdownMenuItem onClick={()=>{setTheme("system")}}>
                             <Monitor className="mr-2 size-4" />
                             Système (défaut)

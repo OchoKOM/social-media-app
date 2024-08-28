@@ -12,6 +12,7 @@ import { Media } from "@prisma/client";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import LikeButton from "./LikeButton";
+import BookmarkButton from "./BookmarkButton";
 
 interface PostProps {
   post: PostData;
@@ -56,7 +57,7 @@ export default function Post({ post }: PostProps) {
         {post.user.id === user.id && (
           <PostMoreButton
             post={post}
-            className="opacity-0 max-sm:opacity-100 transition-opacity group-hover/post:opacity-100"
+            className="opacity-0 transition-opacity group-hover/post:opacity-100 max-sm:opacity-100"
           />
         )}
       </div>
@@ -69,14 +70,23 @@ export default function Post({ post }: PostProps) {
         <MediaPreviews attachments={post.attachments} />
       )}
       <hr className="text-muted-foreground" />
-      <LikeButton  
-      postId={post.id} 
-      initialState={{
-        likes: post._count.likes,
-        isLikedByUser: post.likes.some(like => like.userId === user.id)
-      }}
-      />
-
+      <div className="flex justify-between gap-5">
+        <LikeButton
+          postId={post.id}
+          initialState={{
+            likes: post._count.likes,
+            isLikedByUser: post.likes.some((like) => like.userId === user.id),
+          }}
+        />
+        <BookmarkButton
+          postId={post.id}
+          initialState={{
+            isBookmarkedByUser: post.bookmarks.some(
+              (bookmark) => bookmark.userId === user.id,
+            ),
+          }}
+        />
+      </div>
     </article>
   );
 }
@@ -127,5 +137,5 @@ function MediaPreview({ media }: MediaPreviewProps) {
       </div>
     );
   }
-  return <p className="text-destructive">Format media non supporté</p>
+  return <p className="text-destructive">Format media non supporté</p>;
 }

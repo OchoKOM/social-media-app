@@ -11,9 +11,11 @@ export async function GET(
     try {
 
         const {user: loggedInUser} = await validateRequest();
+
         if(!loggedInUser){
             return Response.json({error: "Action non autorisée"}, {status: 401})
         }
+
         const user = await prisma.user.findUnique({
             where: {id: userId},
             select: {
@@ -56,6 +58,7 @@ export async function POST(
     try {
 
         const {user: loggedInUser} = await validateRequest();
+        
         if(!loggedInUser){
             return Response.json({error: "Action non autorisée"}, {status: 401})
         }

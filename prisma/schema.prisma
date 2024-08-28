@@ -27,9 +27,10 @@ model User {
   session      Session[]
   following    Follow[]  @relation("Following")
   followers    Follow[]  @relation("Followers")
+  posts        Post[]
+  likes        Like[]
 
   createdAt DateTime @default(now())
-  posts     Post[]
 
   @@map("users")
 }
@@ -54,11 +55,12 @@ model Follow {
 }
 
 model Post {
-  id         String  @id @default(cuid())
-  content    String
-  userId     String
-  user       User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id          String  @id @default(cuid())
+  content     String
+  userId      String
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   attachments Media[]
+  likes       Like[]
 
   createdAt DateTime @default(now())
 
@@ -80,4 +82,14 @@ model Media {
 enum MediaType {
   IMAGE
   VIDEO
+}
+
+model Like {
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+  @@map("likes")
 }

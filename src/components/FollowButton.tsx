@@ -57,6 +57,7 @@ export default function FollowButton({
   return (
     <Button
       variant={data.isFollowedByUser ? "secondary" : "default"}
+      title={data.isFollowedByUser ? "Ne plus suivre" : "Suivre"}
       onClick={() => mutate()}
     >
       {data.isFollowedByUser ? "Suivi" : "Suivre"}

@@ -46,6 +46,7 @@ export default function Post({ post }: PostProps) {
             <Link
               href={`/posts/${post.id}`}
               className="block text-sm text-muted-foreground hover:underline"
+              suppressHydrationWarning
             >
               <Time time={post.createdAt} relative={relative} />
             </Link>
@@ -54,7 +55,7 @@ export default function Post({ post }: PostProps) {
         {post.user.id === user.id && (
           <PostMoreButton
             post={post}
-            className="opacity-0 transition-opacity group-hover/post:opacity-100"
+            className="opacity-0 max-sm:opacity-100 transition-opacity group-hover/post:opacity-100"
           />
         )}
       </div>

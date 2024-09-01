@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import SessionProvider from "./SessionProvider";
 import Navbar from "./Navbar";
 import MenuBar from "./MenuBar";
+import RouteProgress from "@/components/RouteProgress";
 
 
 export default async function Layout({ children }: { children: React.ReactNode; }) {
@@ -13,6 +14,7 @@ export default async function Layout({ children }: { children: React.ReactNode; 
     return (
         <SessionProvider value={session}>
             <div className="flex min-h-screen flex-col">
+                <RouteProgress/>
                 <Navbar />
                 <div className="mx-auto max-w-7xl p-5 flex w-full grow gap-5">
                     <MenuBar className="sticky top-[5.25rem] h-fit hidden sm:block flex-none space-y-3 rounded-2xl bg-card px-3 py-5 lg:px-5 xl:w-80" />

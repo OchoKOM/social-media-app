@@ -67,8 +67,12 @@ export default function LikeButton({ postId, initialState }: LikeButtonProps) {
         <Heart 
         className={cn("size-5", data.isLikedByUser && "fill-red-500 text-red-500")}
         />
-        <span>{data.likes}</span>
-        {!!data.likes && (<span className="hidden sm:inline">like{data.likes > 1 ? "s":""}</span>)}
+        {!!data.likes && (
+          <>
+          <span>{data.likes}</span>
+          {!!data.likes && (<span className="hidden sm:inline">like{data.likes > 1 ? "s":""}</span>)}
+          </>
+        )}
     </button>
   );
 }

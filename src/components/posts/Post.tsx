@@ -13,6 +13,10 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import LikeButton from "./LikeButton";
 import BookmarkButton from "./BookmarkButton";
+import { useState } from "react";
+import { MessageSquareMore } from "lucide-react";
+import Comments from "../comments/Comments";
+import { Button } from "../ui/button";
 
 interface PostProps {
   post: PostData;
@@ -20,6 +24,9 @@ interface PostProps {
 
 export default function Post({ post }: PostProps) {
   const { user } = useSession();
+
+  const [showComment, setShowComment] = useState(false);
+  const [commentCount, setCommentCount] = useState(post._count.comments);
 
   const timestamp = post.createdAt.getTime();
   const now = Date.now();
@@ -71,13 +78,16 @@ export default function Post({ post }: PostProps) {
       )}
       <hr className="text-muted-foreground" />
       <div className="flex justify-between gap-5">
-        <LikeButton
-          postId={post.id}
-          initialState={{
-            likes: post._count.likes,
-            isLikedByUser: post.likes.some((like) => like.userId === user.id),
-          }}
-        />
+      <div className="flex items-center gap-5">
+          <LikeButton
+            postId={post.id}
+            initialState={{
+              likes: post._count.likes,
+              isLikedByUser: post.likes.some((like) => like.userId === user.id),
+            }}
+          />
+          <CommentButton comments={commentCount} onClick={()=>setShowComment(!showComment)}/>
+      </div>
         <BookmarkButton
           postId={post.id}
           initialState={{
@@ -87,6 +97,14 @@ export default function Post({ post }: PostProps) {
           }}
         />
       </div>
+      {showComment && (
+        <>
+        <Comments post={post} onCountChange={setCommentCount}/>
+        <Button variant="link" onClick={()=>setShowComment(false)} className="mx-auto block">
+            Masquer les commentaires
+        </Button>
+        </>
+      )}
     </article>
   );
 }
@@ -138,4 +156,28 @@ function MediaPreview({ media }: MediaPreviewProps) {
     );
   }
   return <p className="text-destructive">Format media non supporté</p>;
+}
+
+interface CommentButtonProps {
+  onClick: () => void;
+  comments: number;
+}
+function CommentButton({ comments, onClick }: CommentButtonProps) {
+  return (
+    <button
+      title="Commentaires"
+      onClick={onClick}
+      className="flex items-center gap-2"
+    >
+      <MessageSquareMore />
+      {!!comments && (
+        <span className="text-sm font-medium tabular-nums">
+          {comments}{" "}
+          <span className="hidden sm:inline">
+            commentaire{comments > 1 ? "s" : ""}
+          </span>
+        </span>
+      )}
+    </button>
+  );
 }

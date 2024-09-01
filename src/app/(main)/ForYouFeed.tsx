@@ -40,7 +40,7 @@ export default function ForYouFeed() {
   }
   if (status === "error") {
     return (
-      <p className="text-center text-destructive">
+      <p className="text-center text-destructive w-full">
         Erreur lors de la récupération des données
       </p>
     );

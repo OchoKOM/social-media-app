@@ -57,7 +57,7 @@ export default function UserLinkWithTooltip({
   return (
     <UserTooltip user={data}>
       {
-        useDialog ? (<span>{children}</span>) : (
+        useDialog ? (<span className="text-primary hover:underline">{children}</span>) : (
         <Link
           href={`/users/${username}`}
           className="text-primary hover:underline"

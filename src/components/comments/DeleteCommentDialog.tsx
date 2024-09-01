@@ -1,5 +1,5 @@
-import { PostData } from "@/lib/types";
-import { useDeletePostMutation } from "./mutations";
+import { CommentData } from "@/lib/types";
+import { useDeleteCommentMutation } from "./mutations";
 import {
   Dialog,
   DialogContent,
@@ -11,18 +11,18 @@ import {
 import LoadingButton from "../LoadingButton";
 import { Button } from "../ui/button";
 
-interface DeletePostDialogProps {
-  post: PostData;
+interface DeleteCommentDialogProps {
+  comment: CommentData;
   open: boolean;
   onClose: () => void;
 }
 
-export default function DeletePostDialog({
-  post,
+export default function DeleteCommentDialog({
+  comment,
   open,
   onClose,
-}: DeletePostDialogProps) {
-  const mutation = useDeletePostMutation();
+}: DeleteCommentDialogProps) {
+  const mutation = useDeleteCommentMutation();
 
   function handleOpenChange(open: boolean) {
     if (!open || !mutation.isPending) {
@@ -36,14 +36,15 @@ export default function DeletePostDialog({
         <DialogHeader>
           <DialogTitle>Supprimer ?</DialogTitle>
           <DialogDescription>
-            Voulez-vous vraiment supprimer ce post ? Cette action est
+            Voulez-vous vraiment supprimer ce commentaire ? Cette action est
             irreversible.
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="space-x-3 space-y-3">
+        <DialogFooter>
+          <div className="flex justify-center items-center">
             <LoadingButton
             variant="destructive"
-            onClick={()=>mutation.mutate(post.id, {onSuccess: onClose})}
+            onClick={()=>mutation.mutate(comment.id, {onSuccess: onClose})}
             loading={mutation.isPending}
             >Supprimer</LoadingButton>
             <Button 
@@ -51,6 +52,7 @@ export default function DeletePostDialog({
             onClick={onClose} 
             disabled={mutation.isPending}
             >Annuler</Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>

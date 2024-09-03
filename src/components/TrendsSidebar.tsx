@@ -42,7 +42,7 @@ async function WhoToFollow() {
 
   return (
     <div className="space-y-5 rounded-2xl bg-card p-5 shadow-sm">
-      <h2 className="text-xl font-bold">Suggestions</h2>
+      <h2 className="text-xl font-bold">Suggestions pour vous</h2>
       {usersToFollow.map((user) => {
         return (
           <div

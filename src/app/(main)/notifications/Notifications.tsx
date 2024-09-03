@@ -8,6 +8,7 @@ import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-q
 import { Loader2 } from "lucide-react";
 import Notification from "./Notification";
 import { useEffect } from "react";
+import NotificationsSkeleton from "./NotificationsSkeleton";
 
 export default function Notifications() {
   const {
@@ -51,7 +52,7 @@ export default function Notifications() {
   const notifications = data?.pages.flatMap((page) => page.notifications) || [];
 
   if (status === "pending") {
-    return <PostsLoadingSkeleton />;
+    return <NotificationsSkeleton />;
   }
 
   if (status === "success" && !notifications.length && !hasNextPage) {

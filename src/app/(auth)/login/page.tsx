@@ -3,6 +3,7 @@ import loginImage from "@/assets/login-image.jpg";
 import Image from "next/image";
 import LoginForm from "./LoginForm";
 import Link from "next/link";
+import GoogleSignInButton from "./GoogleSignInButton";
 
 
 export const metadata: Metadata = {
@@ -21,6 +22,12 @@ Un endroit où même <span className="italic">vous</span> pouvez trouver un ami.
                         </p>
                     </div>
                     <div className="space-y-5">
+                        <GoogleSignInButton />
+                        <div className="flex items-center gap-3">
+                            <div className="h-px flex-1 bg-muted"></div>
+                            <span>OU</span>
+                            <div className="h-px flex-1 bg-muted"></div>
+                        </div>
                         <LoginForm/>
                         <Link href="/signup" className="block text-center hover:underline">
                         Je n&apos;ai pas de compte ? S&apos;enregistrer</Link>

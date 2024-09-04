@@ -36,12 +36,16 @@ export default function FollowingFeed() {
   }
 
   if (status === "success" && !posts.length && !hasNextPage) {
-    return <p>Aucun post pour l&apos;instant. 
-      Suivez des personnes pour voir leurs post publics ici</p>;
+    return (
+      <p className="my-8 w-full text-center text-muted-foreground">
+        Aucun post pour l&apos;instant. Suivez des personnes pour voir leurs
+        post publics ici
+      </p>
+    );
   }
   if (status === "error") {
     return (
-      <p className="text-center text-destructive">
+      <p className="w-full text-center text-destructive">
         Erreur lors de la récupération des données
       </p>
     );

@@ -40,11 +40,11 @@ export default function UserPosts({userId}: UserPostsProps) {
   }
 
   if (status === "success" && !posts.length && !hasNextPage) {
-    return <p>Cet utilisateur n&apos;a encore publié ici on dirait</p>;
+    return <p className="my-8 w-full text-muted-foreground text-center">Cet utilisateur n&apos;a encore publié ici on dirait</p>;
   }
   if (status === "error") {
     return (
-      <p className="text-center text-destructive">
+      <p className="w-full text-center text-destructive">
         Erreur lors de la récupération des données
       </p>
     );

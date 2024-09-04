@@ -111,7 +111,7 @@ async function TrendingTopics() {
         const title = hashtag.split("#")[1];
 
         return (
-          <Link key={title} href={`/hastag/${title}`} className="block">
+          <Link key={title} href={`/hashtag/${title}`} className="block">
             <h3
               className="line-clamp-1 break-all font-semibold hover:underline"
               title={hashtag}

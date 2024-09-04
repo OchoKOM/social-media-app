@@ -8,7 +8,11 @@ import { PostsPage } from "@/lib/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 
-export default function Bookmarks() {
+interface SearchResultsProps {
+  query: string;
+}
+
+export default function SearchResults({ query }: SearchResultsProps) {
   const {
     data,
     fetchNextPage,
@@ -17,16 +21,19 @@ export default function Bookmarks() {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["post-feed", "bookmarks"],
+    queryKey: ["post-feed", "search", query],
     queryFn: ({ pageParam }) =>
       kyInstance
-        .get(
-          "/api/posts/bookmarked",
-          pageParam ? { searchParams: { cursor: pageParam } } : {},
-        )
+        .get("/api/search", {
+          searchParams: {
+            q: query,
+            ...(pageParam ? { cursor: pageParam } : {}),
+          },
+        })
         .json<PostsPage>(),
     initialPageParam: null as string | null,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
+    gcTime: 0,
   });
 
   const posts = data?.pages.flatMap((page) => page.posts) || [];
@@ -36,15 +43,11 @@ export default function Bookmarks() {
   }
 
   if (status === "success" && !posts.length && !hasNextPage) {
-    return (
-      <p className="my-8 w-full text-center text-muted-foreground">
-        Vous n&apos;avez pas encore de favoris.
-      </p>
-    );
+    return <p className="my-8 w-full text-muted-foreground text-center">Nous n&apos;avons rien trouvé.</p>;
   }
   if (status === "error") {
     return (
-      <p className="text-center text-destructive">
+      <p className="my-8 w-full text-center text-destructive">
         Erreur lors de la récupération des données
       </p>
     );
